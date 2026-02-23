@@ -1,0 +1,8 @@
+build/
+deps/
+*.wasm
+*.o
+*.a
+.idea/
+*.iml
+.idea
