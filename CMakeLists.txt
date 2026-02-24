@@ -123,12 +123,13 @@ if(EMSCRIPTEN)
         -sUSE_BZIP2=1
     )
 
-    target_compile_options(umineko-web PRIVATE ${EM_PORTS})
-    target_link_options(umineko-web PRIVATE ${EM_PORTS})
+    target_compile_options(umineko-web PRIVATE ${EM_PORTS} -g)
+    target_link_options(umineko-web PRIVATE ${EM_PORTS} -g)
 
     target_link_options(umineko-web PRIVATE
         -sASYNCIFY
-        -sASYNCIFY_STACK_SIZE=65536
+        -sASYNCIFY_STACK_SIZE=1048576
+        -sSTACK_SIZE=8388608
         -sALLOW_MEMORY_GROWTH
         -sINITIAL_MEMORY=268435456
         -sFORCE_FILESYSTEM
