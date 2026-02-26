@@ -144,6 +144,27 @@
             };
         })();
 
+        var idbfsSyncing = false;
+        function syncIDBFS() {
+            if (idbfsSyncing) {
+                return;
+            }
+            idbfsSyncing = true;
+            try {
+                FS.syncfs(false, function(err) {
+                    idbfsSyncing = false;
+                    if (err) {
+                        console.warn('IDBFS sync error:', err);
+                    }
+                });
+            } catch (e) {
+                idbfsSyncing = false;
+            }
+        }
+
+        setInterval(syncIDBFS, 5000);
+        window.addEventListener('beforeunload', syncIDBFS);
+
         var Module = {
             canvas: document.getElementById('canvas'),
             print: function(text) { console.log(text); },
@@ -173,7 +194,6 @@
                             try {
                                 var data = FS.readFile(cfgPath);
                                 FS.writeFile('/game/ons.cfg', data);
-                                console.log('Restored ons.cfg from ' + cfgPath);
                             } catch (e) {}
                         }
                     } catch (e) {}
